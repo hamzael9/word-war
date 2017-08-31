@@ -8,8 +8,8 @@ class App extends Component {
     return (
       <div className="App">
         <button>Play</button>
-        <Player />
-        <Player />
+        <Player name="Hamza"/>
+        <Player name="Mehdi" />
       </div>
     );
   }

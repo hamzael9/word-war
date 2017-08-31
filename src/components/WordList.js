@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import './WordList.css';
 
 class WordList extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+        listOfWords : {}
+    };
+  }
+
   render() {
     return (
       <div className="word-list">
