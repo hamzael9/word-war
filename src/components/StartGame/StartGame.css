@@ -1,0 +1,12 @@
+.start-game {
+    color: orange;
+}
+
+.visible {
+    display: block;
+}
+
+
+.hidden{
+    display: none;
+}

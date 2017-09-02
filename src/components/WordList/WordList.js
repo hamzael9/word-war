@@ -3,35 +3,42 @@ import './WordList.css';
 
 class WordList extends Component {
 
-  constructor() {
+  constructor()
+  {
     super();
     this.state = {
-        listOfWords : {}
+        listOfWords : [<WordListElement key="0" />, <WordListElement key="1" />] 
     };
   }
 
-  render() {
+  addWord()
+  {
+
+  }
+
+  render()
+  {
     return (
       <div className="word-list">
-          <WordListElement />
-          <WordListElement />
-          <WordListElement />
-          <WordListElement />
-          <WordListElement />
-          <WordListElement />
+          { this.state.listOfWords }
       </div>
     );
   }
+
 }
 
 class WordListElement extends Component {
     render () {
         return (
             <div className="element">
-                <h6>SomeWord</h6>
+                <h6>{this.props.word}</h6>
             </div>
         );
     }
 }
+
+WordListElement.defaultProps = {
+    word : "drinking"
+};
 
 export default WordList;
