@@ -30,9 +30,28 @@ class Player extends Component {
     this.props.addPlayer(this.state.name, this.state.number, this.state.isHuman);
   }
 
+  componentWillReceiveProps(nextProps)
+  {
+    console.log ('will receive props');
+    let amIPlaying = nextProps.playingTurn == this.state.number;
+    this.setState((prevState,props) => { return { playing: amIPlaying } });
+  }
+
+  
+  /*
+  componentDidUpdate()
+  {
+    console.log ('component did update ' + this.props.playingTurn);
+    console.log ('component did update ' + this.state.number);
+    let amIplaying = this.props.playingTurn == this.state.number ? true : false;
+    this.setState( (prevState,props) => { return { playing : amIplaying } } );
+  }
+  */
+
+
   render() {
     return (
-      <div className={`player ${this.props.playerNumber === this.state.number ? 'active' : 'inactive'}`}>
+      <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
           <h2 className="name">{this.props.name} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
           <Warrior />
           <WordList />
@@ -50,7 +69,7 @@ Player.defaultProps = {
 const mapStateToProps = (state) => 
 {
   return {
-        playerNumber : state.playerReducer.playingTurn
+        playingTurn : state.playerReducer.playingTurn
   };
 };
 

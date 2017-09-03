@@ -26,7 +26,7 @@ class App extends Component {
           <WordInput />
           <Player name="Hamza"  isHuman={true} number={1} />
           <Player name="Mehdi"  isHuman={true} number={2} />
-          <Player name="Brahim" isHuman={true} number={3} />
+          <Player name="Brahim"  isHuman={true} number={3} />
         </div>
 
       </div>
