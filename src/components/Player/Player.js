@@ -3,11 +3,13 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 
 import './Player.css';
+import {addPlayerAction} from './Player.actions'
 
 
 import Warrior from '../Warrior/Warrior';
 import Bar from '../Bar/Bar';
 import WordList from '../WordList/WordList';
+
 
 class Player extends Component {
   
@@ -15,16 +17,22 @@ class Player extends Component {
     super (props);
 
     this.state = {
-      name  : props.name,
-      number: props.nbr,
-      isHuman  : props.isHuman
+      name     : props.name,
+      number   : props.number,
+      isHuman  : props.isHuman,
+      playing  : false
     };
 
   }
 
+  componentDidMount()
+  {
+    this.props.addPlayer(this.state.name, this.state.number, this.state.isHuman);
+  }
+
   render() {
     return (
-      <div className="player">
+      <div className={`player ${this.props.playerNumber === this.state.number ? 'active' : 'inactive'}`}>
           <h2 className="name">{this.props.name} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
           <Warrior />
           <WordList />
@@ -42,8 +50,15 @@ Player.defaultProps = {
 const mapStateToProps = (state) => 
 {
   return {
-    myTurn: state.playerInputReducer
-  }
+        playerNumber : state.playerReducer.playingTurn
+  };
 };
 
-export default connect (mapStateToProps)(Player);
+const mapDispatchToProps = (dispatch) =>
+{
+  return {
+    addPlayer : (name, number, isHuman) => dispatch ( addPlayerAction (name, number, isHuman) )
+  };
+}
+
+export default connect (mapStateToProps, mapDispatchToProps)(Player);

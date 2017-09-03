@@ -4,6 +4,8 @@ import './WordInput.css';
 
 import {connect} from 'react-redux';
 
+import {changeToNextPlayerAction} from '../Player/Player.actions';
+
 class WordInput extends Component {
 
     constructor( props )
@@ -12,11 +14,22 @@ class WordInput extends Component {
         this.state = { allowed : false };
     }
 
+    handleKeyPress (e)
+    {
+        if ( e.key === 'Enter' )
+        {
+            this.props.changeToNextPlayer();
+        }
+    }
+
     render ()
     {
         return (
             <div className="word-input-container">
-                <input className={`word-input ${this.props.gameStarted ? 'allowed' : 'blocked'}`} type="text" placeholder={`${ this.props.gameStarted ? 'Enter your word !' : ''}`} />
+                <input className={`word-input ${this.props.gameStarted ? 'allowed' : 'blocked'}`} 
+                       type="text" 
+                       placeholder={`${ this.props.gameStarted ? 'Enter your word !' : ''}`}
+                       onKeyPress={this.handleKeyPress.bind(this)}/> 
             </div>
         );
     }
@@ -25,9 +38,17 @@ class WordInput extends Component {
 const mapStateToProps = (state) =>
 {
     return {
-        gameStarted : state.appReducer.gameStarted,
-        player: state.appReducer.player
+        gameStarted  : state.appReducer.gameStarted,
+        playerNumber : state.playerReducer.playingTurn
     }
 };
 
-export default connect(mapStateToProps)(WordInput);
+const mapDispatchToProps = (dispatch) =>
+{
+    return {
+        //addWordToList : (word, player_number) => dispatch ( ),
+        changeToNextPlayer  : () => dispatch (changeToNextPlayerAction())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WordInput);

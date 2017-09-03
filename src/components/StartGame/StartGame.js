@@ -95,9 +95,9 @@ const mapStateToProps = (state) =>
 
 const mapDispatchToProps = dispatch =>
 {
-    return { initGame    : () => dispatch ( initGameAction () ),
-             startGame   : () => dispatch ( startGameAction() ),
-             finishGame  : () => dispatch ( finishGameAction()  )
+    return { initGame    : () => dispatch ( initGameAction ()  ),
+             startGame   : () => dispatch ( startGameAction()  ),
+             finishGame  : () => dispatch ( finishGameAction() )
     };
 };
 
