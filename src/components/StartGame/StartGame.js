@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import './StartGame.css';
 
-import {startGameAction, stopGameAction} from './StartGame.actions';
+import {initGameAction, startGameAction, finishGameAction} from './StartGame.actions';
 
 import {connect} from 'react-redux';
 
@@ -12,38 +13,50 @@ class StartGame extends Component {
     {
         super(props);
         this.state = {
-            seconds: 30,
-            timer : null
+                seconds: this.props.timerValue,
+                timer : null
         };
     }
 
     startGameClickHandler () 
     {
-        this.props.gameStarted ? null : this.props.startGame();
+        if (this.props.gameInitiated && !this.props.gameStarted)
+        {
+            this.setState ({seconds : this.props.timerValue});
+            this.props.gameStarted ? null : this.props.startGame();
+        }
+        //else
+        //    this.props.gameStarted ? null : this.props.initGame();
+
+    }
+
+    componentDidMount()
+    {
+        this.props.initGame();
     }
 
     componentWillReceiveProps (nextProps)
     {
-        console.log (nextProps);
-        if ( this.props.gameStarted != nextProps.gameStarted )
+        if ( this.props.gameFinished && nextProps.gameStarted )
         {
-            console.log ('game started')
             let timerID = setInterval(this.tick.bind(this), 1000);
+            this.setState({timer: timerID});
         }
-        
     }
-
 
 
     tick ()
     {
-        this.setState ((prevState, props) => {
+        this.setState ((prevState) => {
             return {
                 seconds : prevState.seconds - 1
-            }
+            };
         });
         if (this.state.seconds === 0)
-            this.props.stopGame();
+        {
+            clearInterval(this.state.timer);
+            this.props.finishGame();
+        }
     }
 
     stopTimer ()
@@ -58,25 +71,34 @@ class StartGame extends Component {
           <div className={`clock ${this.props.gameStarted ? 'visible' : 'hidden'}`}>
             <h6>Time remaining : <span className="timer">{this.state.seconds}</span></h6>
           </div>
-
       </div>
     );
   }
 
 }
 
+StartGame.defaultProps = {
+    timerValue: 60
+}
+StartGame.propTypes = {
+    timerValue: PropTypes.number
+}
+
 const mapStateToProps = (state) => 
 {
     return {
-        gameStarted: state.appReducer.gameStarted
-    } 
+        gameInitiated : state.appReducer.gameInitiated,
+        gameStarted: state.appReducer.gameStarted,
+        gameFinished: state.appReducer.gameFinished
+    };
 };
 
 const mapDispatchToProps = dispatch =>
 {
-    return { startGame : () =>  dispatch ( startGameAction() ),
-             stopGame  : () => dispatch ( stopGameAction() )
-    }
+    return { initGame    : () => dispatch ( initGameAction () ),
+             startGame   : () => dispatch ( startGameAction() ),
+             finishGame  : () => dispatch ( finishGameAction()  )
+    };
 };
 
 export default connect (mapStateToProps, mapDispatchToProps) (StartGame);

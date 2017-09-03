@@ -1,0 +1,15 @@
+.word-input:focus {
+    outline: none;
+}
+
+.word-input-container .word-input {
+    text-align: center;
+}
+
+.word-input-container .word-input.blocked {
+    border: 2px solid red;
+}
+
+.word-input-container .word-input.allowed {
+    border: 2px solid green;
+}

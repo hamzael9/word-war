@@ -1,23 +1,35 @@
 
 
-export const appReducer = (state = {gameStarted : false}, action) =>
+export const appReducer = (state = {}, action) =>
 {
-    console.log('accessing app reducer');
     switch (action.type)
     {
+        case "INIT_GAME":
+            state = {
+                gameInitiated : true,
+                gameStarted: false,
+                gameFinished: true
+            };
+            break;
+
         case "START_GAME":
             state = {
-                ... state,
+                gameInitiated: true,
                 gameStarted : true,
+                gameFinished: false,
                 gameStartTime: action.payload
             };
             break;
-        case 'STOP_GAME':
+
+        case "FINISH_GAME":
             state = {
+                gameInitiated: true,
                 gameStarted : false,
-                gameStopTime: action.payload
-            }
+                gameFinished: true,
+                gameFinishTime: action.payload
+            };
             break;
+
         default:
             break;
 

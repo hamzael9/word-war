@@ -7,3 +7,12 @@ body {
   padding: 0;
   font-family: sans-serif;
 }
+
+.visible {
+    display: block;
+}
+
+
+.hidden{
+    display: none;
+}

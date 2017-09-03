@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 //import logo from '../logo.svg';
 import './App.css';
-import Player from '../Player/Player';
 import StartGame from '../StartGame/StartGame';
+import WordInput from '../WordInput/WordInput';
+import Player from '../Player/Player';
+
+import {connect} from 'react-redux';
 
 
 class App extends Component {
@@ -17,10 +20,13 @@ class App extends Component {
     return (
       <div className="App">
 
-        <StartGame />
+        <StartGame timerValue={10} />
 
-        <Player name="Hamza"/>
-        <Player name="Mehdi" />
+        <div className={`field ${this.props.gameInitiated ? 'visible' : 'hidden'}`} >
+          <WordInput />
+          <Player name="Hamza" isHuman={true} number={1} />
+          <Player name="Mehdi" isHuman={true} number={2} />
+        </div>
 
       </div>
     );
@@ -28,5 +34,10 @@ class App extends Component {
 
 }
 
+const mapStateToProps = (state) => 
+{
+  return { gameInitiated : state.appReducer.gameInitiated };
+}
 
-export default App;
+
+export default connect (mapStateToProps, null) (App) ;
