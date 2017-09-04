@@ -15,6 +15,16 @@ class App extends Component {
     super(props);
   }
 
+  createPlayers()
+  {
+    let playerArray = [];
+    for (var index = 0; index < 3; index++)
+      playerArray.push(<Player key={index} name={`player ${index}`} isHuman={true} />)
+
+    return playerArray;
+
+  }
+
   render()
   {
     return (
@@ -24,9 +34,7 @@ class App extends Component {
 
         <div className={`field ${this.props.gameInitiated ? 'visible' : 'hidden'}`} >
           <WordInput />
-          <Player name="Hamza"  isHuman={true} number={1} />
-          <Player name="Mehdi"  isHuman={true} number={2} />
-          <Player name="Brahim"  isHuman={true} number={3} />
+          {this.createPlayers()}
         </div>
 
       </div>

@@ -4,7 +4,9 @@ import './WordInput.css';
 
 import {connect} from 'react-redux';
 
+import {addWordToListAction} from './WordInput.actions';
 import {changeToNextPlayerAction} from '../Player/Player.actions';
+
 
 class WordInput extends Component {
 
@@ -16,9 +18,12 @@ class WordInput extends Component {
 
     handleKeyPress (e)
     {
-        if ( e.key === 'Enter' )
+        if (  this.props.gameStarted && e.key === 'Enter')
         {
-            this.props.changeToNextPlayer();
+            let wordToAdd = this.refs['myWordInput'].value;
+
+            this.props.addWordToList(wordToAdd, this.props.actualPlayerNumber);
+            //this.props.changeToNextPlayer();
         }
     }
 
@@ -26,10 +31,10 @@ class WordInput extends Component {
     {
         return (
             <div className="word-input-container">
-                <input className={`word-input ${this.props.gameStarted ? 'allowed' : 'blocked'}`} 
+                <input ref="myWordInput" className={`word-input ${this.props.gameStarted ? 'allowed' : 'blocked'}`} 
                        type="text" 
                        placeholder={`${ this.props.gameStarted ? 'Enter your word !' : ''}`}
-                       onKeyPress={this.handleKeyPress.bind(this)}/> 
+                       onKeyPress={this.handleKeyPress.bind(this)} /> 
             </div>
         );
     }
@@ -39,14 +44,14 @@ const mapStateToProps = (state) =>
 {
     return {
         gameStarted  : state.appReducer.gameStarted,
-        playerNumber : state.playerReducer.playingTurn
+        actualPlayerNumber : state.playerReducer.actualPlayerNumber
     }
 };
 
 const mapDispatchToProps = (dispatch) =>
 {
     return {
-        //addWordToList : (word, player_number) => dispatch ( ),
+        addWordToList : (word, player_number) => dispatch (addWordToListAction(word, player_number)),
         changeToNextPlayer  : () => dispatch (changeToNextPlayerAction())
     };
 };

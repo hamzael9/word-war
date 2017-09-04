@@ -1,5 +1,5 @@
 
-export const playerReducer = (state = {playingTurn : 0, players: []}, action) =>
+export const playerReducer = (state = {playersInfo: [], actualPlayerNumber : 0}, action) =>
 {
 
     switch ( action.type )
@@ -9,36 +9,28 @@ export const playerReducer = (state = {playingTurn : 0, players: []}, action) =>
                     name: action.payload.name,
                     isHuman: action.payload.isHuman,  
                     playing: false,
-                    number : action.payload.number,
-                    wordsList: [],
-                    points: 0
+                    number : action.payload.order
             };
-            state.players.push(playerToAdd);
-        break;
-
-        case "DELETE_PLAYER":
+            state.playersInfo.push(playerToAdd);
         break;
 
         case "CHANGE_TO_NEXT_PLAYER":
-            //state.playingTurn = state.playingTurn + 1;
-            state = {
-                ...state,
-                playingTurn : ++state.playingTurn
-            }
-            /*if ( state.playingTurn === state.players.length )
+            if ( state.actualPlayerNumber === state.playersInfo.length )
                 state = {
                     ...state,
-                    playingTurn : 1
+                    actualPlayerNumber: 1
                 };
             else
                 state = {
                     ...state,
-                    playingTurn : state.playingTurn + 1
+                    actualPlayerNumber: state.actualPlayerNumber + 1
                 };
-            state.players.forEach( (player,i) => { 
-                if (player.number === state.playingTurn) player.playing = true;
-                else player.playing = false;
-            } );*/
+            state.playersInfo.forEach( (player,i) => { 
+                if (player.number === state.actualPlayerNumber) 
+                    player.playing = true;
+                else
+                    player.playing = false;
+            } );
         break;
 
         default:

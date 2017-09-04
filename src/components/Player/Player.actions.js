@@ -1,7 +1,7 @@
 
-export const addPlayerAction = (name, number, isHuman) =>
+export const addPlayerAction = (name, order, isHuman) =>
     {
-        return { type: "ADD_PLAYER", payload: { name, number, isHuman } } ;
+        return { type: "ADD_PLAYER", payload: { name, order, isHuman } } ;
     }
 
 export const changeToNextPlayerAction = () =>

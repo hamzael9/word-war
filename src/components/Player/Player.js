@@ -10,15 +10,18 @@ import Warrior from '../Warrior/Warrior';
 import Bar from '../Bar/Bar';
 import WordList from '../WordList/WordList';
 
+var numberOfPlayers = 0;
 
 class Player extends Component {
-  
+
   constructor(props) {
     super (props);
 
+    numberOfPlayers++;
+
     this.state = {
       name     : props.name,
-      number   : props.number,
+      order    : numberOfPlayers,
       isHuman  : props.isHuman,
       playing  : false
     };
@@ -27,32 +30,19 @@ class Player extends Component {
 
   componentDidMount()
   {
-    this.props.addPlayer(this.state.name, this.state.number, this.state.isHuman);
+    this.props.addPlayer(this.state.name, this.state.order, this.state.isHuman);
   }
 
   componentWillReceiveProps(nextProps)
   {
-    console.log ('will receive props');
-    let amIPlaying = nextProps.playingTurn == this.state.number;
+    let amIPlaying = nextProps.actualPlayerNumber == this.state.order;
     this.setState((prevState,props) => { return { playing: amIPlaying } });
   }
-
-  
-  /*
-  componentDidUpdate()
-  {
-    console.log ('component did update ' + this.props.playingTurn);
-    console.log ('component did update ' + this.state.number);
-    let amIplaying = this.props.playingTurn == this.state.number ? true : false;
-    this.setState( (prevState,props) => { return { playing : amIplaying } } );
-  }
-  */
-
 
   render() {
     return (
       <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
-          <h2 className="name">{this.props.name} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
+          <h2 className="name">{`${this.state.name}[${this.state.order}]`} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
           <Warrior />
           <WordList />
       </div>
@@ -62,21 +52,21 @@ class Player extends Component {
 
 Player.defaultProps = {
   name : "Player",
-  number  : 1,
+  number  : -1,
   isHuman : true
 };
 
 const mapStateToProps = (state) => 
 {
   return {
-        playingTurn : state.playerReducer.playingTurn
+    actualPlayerNumber : state.playerReducer.actualPlayerNumber
   };
 };
 
 const mapDispatchToProps = (dispatch) =>
 {
   return {
-    addPlayer : (name, number, isHuman) => dispatch ( addPlayerAction (name, number, isHuman) )
+    addPlayer : (name, order, isHuman) => dispatch ( addPlayerAction (name, order, isHuman) )
   };
 }
 
