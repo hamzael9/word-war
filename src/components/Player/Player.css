@@ -12,7 +12,7 @@
 }
 
 .player.active .name {
-    color: green;
+    color: purple;
 }
 
 .player.inactive .name {

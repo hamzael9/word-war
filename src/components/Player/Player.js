@@ -42,7 +42,7 @@ class Player extends Component {
   render() {
     return (
       <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
-          <h2 className="name">{`${this.state.name}[${this.state.order}]`} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
+          <h2 className="name">{`${this.state.name}`} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
           <Warrior />
           <WordList />
       </div>

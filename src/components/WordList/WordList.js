@@ -11,11 +11,6 @@ class WordList extends Component {
     };
   }
 
-  addWord()
-  {
-
-  }
-
   render()
   {
     return (

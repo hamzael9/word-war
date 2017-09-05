@@ -7,3 +7,10 @@ export const addWordToListAction = (word, playerNumber) =>
         payload : { word, playerNumber }
     };
 };
+
+export const clearWordListsAction = () =>
+{
+    return {
+        type : "CLEAR_WORD_LISTS"
+    };
+}

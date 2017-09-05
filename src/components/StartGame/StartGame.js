@@ -4,6 +4,7 @@ import './StartGame.css';
 
 import {initGameAction, startGameAction, finishGameAction} from './StartGame.actions';
 import {changeToNextPlayerAction} from '../Player/Player.actions';
+import {clearWordListsAction} from '../WordInput/WordInput.actions';
 
 import {connect} from 'react-redux';
 
@@ -24,8 +25,7 @@ class StartGame extends Component {
         if (this.props.gameInitiated && !this.props.gameStarted)
         {
             this.setState ({seconds : this.props.timerValue});
-            this.props.gameStarted ? null : this.props.startGame();
-            
+            this.props.gameStarted ? null : ( () => { this.props.clearWordLists(); this.props.startGame(); })();
         }
         //else
         //    this.props.gameStarted ? null : this.props.initGame();
@@ -100,9 +100,10 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = dispatch =>
 {
     return { initGame    : () => dispatch ( initGameAction ()  ),
-             startGame   : () => dispatch ( startGameAction()  ),
-             finishGame  : () => dispatch ( finishGameAction() ),
-             changeToNextPlayer : (player_number) => dispatch ( changeToNextPlayerAction(player_number) )
+             startGame   : () => dispatch ( startGameAction ()  ),
+             finishGame  : () => dispatch ( finishGameAction () ),
+             changeToNextPlayer : (player_number) => dispatch ( changeToNextPlayerAction (player_number) ),
+             clearWordLists : () => dispatch ( clearWordListsAction ())
     };
 };
 

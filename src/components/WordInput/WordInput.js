@@ -24,8 +24,9 @@ class WordInput extends Component {
 
             this.props.addWordToList(wordToAdd, this.props.actualPlayerNumber);
 
-            this.refs.myWordInput.value = '';
             this.props.changeToNextPlayer();
+            
+            this.refs.myWordInput.value = '';
         }
     }
 
