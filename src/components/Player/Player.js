@@ -16,12 +16,11 @@ class Player extends Component {
 
   constructor(props) {
     super (props);
-
     numberOfPlayers++;
 
     this.state = {
       name     : props.name,
-      order    : numberOfPlayers,
+      number   : props.number,
       isHuman  : props.isHuman,
       playing  : false
     };
@@ -30,12 +29,12 @@ class Player extends Component {
 
   componentDidMount()
   {
-    this.props.addPlayer(this.state.name, this.state.order, this.state.isHuman);
+    this.props.addPlayer(this.state.name, this.state.number, this.state.isHuman);
   }
 
   componentWillReceiveProps(nextProps)
   {
-    let amIPlaying = nextProps.actualPlayerNumber == this.state.order;
+    let amIPlaying = nextProps.actualPlayerNumber == this.state.number;
     this.setState((prevState,props) => { return { playing: amIPlaying } });
   }
 
@@ -44,7 +43,7 @@ class Player extends Component {
       <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
           <h2 className="name">{`${this.state.name}`} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
           <Warrior />
-          <WordList />
+          <WordList playerNumber={this.state.number} />
       </div>
     );
   }
@@ -66,7 +65,7 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = (dispatch) =>
 {
   return {
-    addPlayer : (name, order, isHuman) => dispatch ( addPlayerAction (name, order, isHuman) )
+    addPlayer : (name, number, isHuman) => dispatch ( addPlayerAction (name, number, isHuman) )
   };
 }
 

@@ -18,8 +18,9 @@ class App extends Component {
   createPlayers()
   {
     let playerArray = [];
+    let playerNames = ['hamza', 'mehdi', 'brahim'];
     for (var index = 0; index < 3; index++)
-      playerArray.push(<Player key={index} name={`player ${index}`} isHuman={true} />)
+      playerArray.push(<Player key={index} name={playerNames[index]} number={index+1} isHuman={true} />)
 
     return playerArray;
 

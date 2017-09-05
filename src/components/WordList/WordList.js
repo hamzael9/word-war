@@ -1,14 +1,38 @@
 import React, { Component } from 'react';
 import './WordList.css';
 
+import {changeToNextPlayerAction} from '../Player/Player.actions';
+
+import {connect} from 'react-redux';
+
 class WordList extends Component {
 
-  constructor()
+  constructor(props)
   {
-    super();
+    super(props);
     this.state = {
-        listOfWords : [<WordListElement key="0" />, <WordListElement key="1" />] 
+        playerNumber: props.playerNumber,
+        listOfWords : [] 
     };
+  }
+
+  componentWillReceiveProps(nextProps)
+  {
+
+    if (this.state.playerNumber === nextProps.wordToAdd.playerNumber)
+        this.setState( (prevState) => {
+            return {
+                ...prevState,
+                listOfWords : [...prevState.listOfWords, <WordListElement key={prevState.listOfWords.length} word={nextProps.wordToAdd.word} />]
+            }
+        });
+    
+  }
+
+  componentDidUpdate()
+  {
+    if (this.state.playerNumber === this.props.wordToAdd.playerNumber)
+        this.props.changeToNextPlayer();
   }
 
   render()
@@ -36,4 +60,19 @@ WordListElement.defaultProps = {
     word : "drinking"
 };
 
-export default WordList;
+const mapStateToProps = (state) =>
+{
+    return {
+        wordToAdd : state.wordInputReducer,
+
+    };
+};
+
+const mapDispatchToProps = (dispatch) =>
+{
+    return {
+        changeToNextPlayer : () => dispatch ( changeToNextPlayerAction() )
+    };
+};
+
+export default connect (mapStateToProps, mapDispatchToProps) (WordList);

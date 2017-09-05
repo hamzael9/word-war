@@ -4,7 +4,7 @@ import './WordInput.css';
 
 import {connect} from 'react-redux';
 
-import {addWordToListAction} from './WordInput.actions';
+import {addWordAction} from '../WordInput/WordInput.actions';
 import {changeToNextPlayerAction} from '../Player/Player.actions';
 
 
@@ -18,16 +18,46 @@ class WordInput extends Component {
 
     handleKeyPress (e)
     {
-        if (  this.props.gameStarted && e.key === 'Enter')
+        if (  this.props.gameStarted && e.key === 'Enter' )
         {
             let wordToAdd = this.refs.myWordInput.value;
+            let checkResult = this.checkWordIsValid(wordToAdd);
+            if ( checkResult.isValid )
+            {
+                this.props.addWord(wordToAdd, this.props.actualPlayerNumber);
 
-            this.props.addWordToList(wordToAdd, this.props.actualPlayerNumber);
-
-            this.props.changeToNextPlayer();
+                
+                this.refs.myWordInput.value = '';
+            }
+            else
+            {
+                alert (checkResult.msg);
+            }
             
-            this.refs.myWordInput.value = '';
         }
+    }
+
+    checkWordIsValid (word)
+    {
+        let ret = {isValid: false, msg: ''};
+
+        if ( /[0-9]/.test (word) )
+        {
+            ret.isValid = false;
+            ret.msg = 'Numbers are not allowed !';
+        }
+        else if ( /[!@#$%^&*()?<>\"\':\[\]\/+=-_}{]/.test(word) )
+        {
+            ret.isValid = false;
+            ret.msg = 'Special Characters are not allowed !';
+        }
+        else
+        {
+            ret.isValid = true;
+            ret.msg = '';
+        }
+
+        return ret;
     }
 
     render ()
@@ -54,7 +84,7 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = (dispatch) =>
 {
     return {
-        addWordToList : (word, player_number) => dispatch (addWordToListAction(word, player_number)),
+        addWord : (word, player_number) => dispatch (addWordAction(word, player_number)),
         changeToNextPlayer  : () => dispatch (changeToNextPlayerAction())
     };
 };

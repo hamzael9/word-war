@@ -1,30 +1,21 @@
 
-
-export const wordInputReducer = (state = [{playerNumber: 1, wordList: [], pointsEarned: 0, pointsLost: 0}] , action) =>
+export const wordInputReducer = (state = {playerNumber: 0, wordToAdd: ''}, action) =>
 {
-
+    let new_state;
     switch (action.type)
     {
-        case "ADD_WORD_TO_LIST":
-            let added = false;
+        case "ADD_WORD":
+            
             let wordToAdd = action.payload.word;
-            let pointsEarned = wordToAdd.length;
-            for ( let element of state )
-            {
-                if ( element.playerNumber === action.payload.playerNumber )
-                {
-                    element.wordList.push(wordToAdd);
-                    element.pointsEarned += pointsEarned;
-                    added = true;
-                }
-            }
-            if (!added)
-                state.push({ playerNumber: action.payload.playerNumber , wordList: [wordToAdd], pointsEarned, pointsLost: 0});
+            let playerNumber = action.payload.playerNumber;
+            
+            new_state = {playerNumber, word: wordToAdd}; 
+
             break;
         
-        case "CLEAR_WORD_LISTS":
-            state.forEach( (element) => element.wordList = [] );
-            break;
+        
+        default:
+            return state;
     }
-    return state;
+    return new_state;
 };

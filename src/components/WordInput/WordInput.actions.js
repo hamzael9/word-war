@@ -1,16 +1,8 @@
 
-
-export const addWordToListAction = (word, playerNumber) =>
+export const addWordAction = (word, playerNumber) =>
 {
     return {
-        type : "ADD_WORD_TO_LIST",
+        type : "ADD_WORD",
         payload : { word, playerNumber }
     };
 };
-
-export const clearWordListsAction = () =>
-{
-    return {
-        type : "CLEAR_WORD_LISTS"
-    };
-}
