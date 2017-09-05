@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import './StartGame.css';
 
 import {initGameAction, startGameAction, finishGameAction} from './StartGame.actions';
+import {changeToNextPlayerAction} from '../Player/Player.actions';
 
 import {connect} from 'react-redux';
 
@@ -24,6 +25,7 @@ class StartGame extends Component {
         {
             this.setState ({seconds : this.props.timerValue});
             this.props.gameStarted ? null : this.props.startGame();
+            
         }
         //else
         //    this.props.gameStarted ? null : this.props.initGame();
@@ -41,6 +43,7 @@ class StartGame extends Component {
         {
             let timerID = setInterval(this.tick.bind(this), 1000);
             this.setState({timer: timerID});
+            this.props.changeToNextPlayer(1);
         }
     }
 
@@ -54,13 +57,14 @@ class StartGame extends Component {
         });
         if (this.state.seconds === 0)
         {
-            clearInterval(this.state.timer);
-            this.props.finishGame();
+            this.stopTimer();
         }
     }
 
     stopTimer ()
     {
+        clearInterval(this.state.timer);
+        this.props.finishGame();
     }
 
   render() 
@@ -97,7 +101,8 @@ const mapDispatchToProps = dispatch =>
 {
     return { initGame    : () => dispatch ( initGameAction ()  ),
              startGame   : () => dispatch ( startGameAction()  ),
-             finishGame  : () => dispatch ( finishGameAction() )
+             finishGame  : () => dispatch ( finishGameAction() ),
+             changeToNextPlayer : (player_number) => dispatch ( changeToNextPlayerAction(player_number) )
     };
 };
 

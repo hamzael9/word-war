@@ -20,10 +20,12 @@ class WordInput extends Component {
     {
         if (  this.props.gameStarted && e.key === 'Enter')
         {
-            let wordToAdd = this.refs['myWordInput'].value;
+            let wordToAdd = this.refs.myWordInput.value;
 
             this.props.addWordToList(wordToAdd, this.props.actualPlayerNumber);
-            //this.props.changeToNextPlayer();
+
+            this.refs.myWordInput.value = '';
+            this.props.changeToNextPlayer();
         }
     }
 

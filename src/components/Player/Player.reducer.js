@@ -15,22 +15,36 @@ export const playerReducer = (state = {playersInfo: [], actualPlayerNumber : 0},
         break;
 
         case "CHANGE_TO_NEXT_PLAYER":
-            if ( state.actualPlayerNumber === state.playersInfo.length )
-                state = {
-                    ...state,
-                    actualPlayerNumber: 1
-                };
-            else
-                state = {
-                    ...state,
-                    actualPlayerNumber: state.actualPlayerNumber + 1
-                };
-            state.playersInfo.forEach( (player,i) => { 
-                if (player.number === state.actualPlayerNumber) 
-                    player.playing = true;
+            // action payload contains either -1 or number of player that we want
+            // to play ( typically player 1 when we start the game )
+            if (action.payload < 0)
+            {
+                if ( state.actualPlayerNumber === state.playersInfo.length )
+                    state = {
+                        ...state,
+                        actualPlayerNumber: 1
+                    };
                 else
-                    player.playing = false;
-            } );
+                    state = {
+                        ...state,
+                        actualPlayerNumber: state.actualPlayerNumber + 1
+                    };
+            }
+            else
+            {
+                state = {
+                    ...state,
+                    actualPlayerNumber : action.payload
+                }
+            }
+
+            state.playersInfo.forEach( (player,i) => { 
+                    if (player.number === state.actualPlayerNumber) 
+                        player.playing = true;
+                    else
+                        player.playing = false;
+                }
+            );
         break;
 
         default:
