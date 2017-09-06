@@ -22,7 +22,8 @@ class Player extends Component {
       name     : props.name,
       number   : props.number,
       isHuman  : props.isHuman,
-      playing  : false
+      playing  : false,
+      points   : 0
     };
 
   }
@@ -36,12 +37,19 @@ class Player extends Component {
   {
     let amIPlaying = nextProps.actualPlayerNumber == this.state.number;
     this.setState((prevState,props) => { return { playing: amIPlaying } });
+
+    // handle word added
+    if ( nextProps.lastWordToAdd.playerNumber === this.state.number )
+      this.setState ( (prevState, props) => { return { points: prevState.points+nextProps.lastWordToAdd.pointsEarned }; } );
   }
 
   render() {
     return (
       <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
-          <h2 className="name">{`${this.state.name}`} <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span></h2>
+          <h2 className="name">{`${this.state.name}`} 
+            <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span>
+            <span className="points"> {this.state.points} </span>
+          </h2>
           <Warrior />
           <WordList playerNumber={this.state.number} />
       </div>
@@ -58,7 +66,8 @@ Player.defaultProps = {
 const mapStateToProps = (state) => 
 {
   return {
-    actualPlayerNumber : state.playerReducer.actualPlayerNumber
+    actualPlayerNumber : state.playerReducer.actualPlayerNumber,
+    lastWordToAdd      : state.wordInputReducer
   };
 };
 

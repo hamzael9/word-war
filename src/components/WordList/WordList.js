@@ -19,11 +19,11 @@ class WordList extends Component {
   componentWillReceiveProps(nextProps)
   {
 
-    if (this.state.playerNumber === nextProps.wordToAdd.playerNumber)
+    if (this.state.playerNumber === nextProps.lastWordToAdd.playerNumber)
         this.setState( (prevState) => {
             return {
                 ...prevState,
-                listOfWords : [...prevState.listOfWords, <WordListElement key={prevState.listOfWords.length} word={nextProps.wordToAdd.word} />]
+                listOfWords : [...prevState.listOfWords, <WordListElement key={prevState.listOfWords.length} word={nextProps.lastWordToAdd.word} />]
             }
         });
     
@@ -31,7 +31,7 @@ class WordList extends Component {
 
   componentDidUpdate()
   {
-    if (this.state.playerNumber === this.props.wordToAdd.playerNumber)
+    if (this.state.playerNumber === this.props.lastWordToAdd.playerNumber)
         this.props.changeToNextPlayer();
   }
 
@@ -63,7 +63,7 @@ WordListElement.defaultProps = {
 const mapStateToProps = (state) =>
 {
     return {
-        wordToAdd : state.wordInputReducer,
+        lastWordToAdd : state.wordInputReducer,
 
     };
 };
