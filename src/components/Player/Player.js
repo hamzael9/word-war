@@ -41,6 +41,9 @@ class Player extends Component {
     // handle word added
     if ( nextProps.lastWordToAdd.playerNumber === this.state.number )
       this.setState ( (prevState, props) => { return { points: prevState.points+nextProps.lastWordToAdd.pointsEarned }; } );
+    else if (nextProps.lastWordToAdd.playerNumber === -1)
+      this.setState ( (prevState, props) => { return { points: 0 }; } );
+
   }
 
   render() {

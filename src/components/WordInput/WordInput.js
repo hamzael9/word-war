@@ -46,12 +46,12 @@ class WordInput extends Component {
             ret.isValid = false;
             ret.msg = 'Numbers are not allowed !';
         }
-        else if ( /[!@#$%^&*()?<>\"\':\[\]\/+=-_}{]/.test(word) )
+        else if ( /[!@#$%^&*()?<>"':[]\/\+=-_}{]/.test(word) )
         {
             ret.isValid = false;
             ret.msg = 'Special Characters are not allowed !';
         }
-        else if (this.props.lastWord != undefined && word[0] != this.props.lastWord.substr(-1))
+        else if (this.props.lastWord != undefined && this.props.lastWord != '' && word[0] != this.props.lastWord.substr(-1))
         {
             ret.isValid = false;
             ret.msg = `Word does not start with the last letter of the last word : ${this.props.lastWord.substr(-1)}`;

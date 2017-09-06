@@ -28,7 +28,7 @@ const getEnglishLettersToPointsMap = () => {
     lettersToPointsMap.set('z', 5);
     lettersToPointsMap.set('j', 5);
     lettersToPointsMap.set('q', 5);
-    
+
     return lettersToPointsMap;
 }
 
@@ -55,15 +55,14 @@ export const wordInputReducer = (state = {playerNumber: 0, wordToAdd: '', points
     switch (action.type)
     {
         case "ADD_WORD":
-            
+
             let wordToAdd = action.payload.word;
             let playerNumber = action.payload.playerNumber;
             let points = calculatePointsEarned(wordToAdd);
             new_state = {playerNumber, word: wordToAdd, pointsEarned: points}; 
 
             break;
-        
-        
+
         default:
             return state;
     }

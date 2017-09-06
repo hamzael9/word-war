@@ -6,9 +6,10 @@ import logger from "redux-logger";
 
 import {appReducer} from './components/App/App.reducer';
 import {playerReducer} from './components/Player/Player.reducer';
+import {wordListReducer} from './components/WordList/WordList.reducer';
 import {wordInputReducer} from './components/WordInput/WordInput.reducer';
 
-const bigReducer = combineReducers ({appReducer, playerReducer, wordInputReducer});
+const bigReducer = combineReducers ({appReducer, playerReducer, wordListReducer, wordInputReducer});
 
 
 

@@ -2,8 +2,10 @@
 
 export const appReducer = (state = {}, action) =>
 {
+
     switch (action.type)
     {
+
         case "INIT_GAME":
             state = {
                 gameInitiated : true,
@@ -36,5 +38,5 @@ export const appReducer = (state = {}, action) =>
     }
 
     return state;
-}
 
+}

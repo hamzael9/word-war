@@ -18,7 +18,6 @@ class WordList extends Component {
 
   componentWillReceiveProps(nextProps)
   {
-
     if (this.state.playerNumber === nextProps.lastWordToAdd.playerNumber)
         this.setState( (prevState) => {
             return {
@@ -26,7 +25,8 @@ class WordList extends Component {
                 listOfWords : [...prevState.listOfWords, <WordListElement key={prevState.listOfWords.length} word={nextProps.lastWordToAdd.word} />]
             }
         });
-    
+    else if (nextProps.lastWordToAdd.playerNumber === -1)
+        this.setState ( (prevState,props) => { return { ...prevState,listOfWords : [] }; } );
   }
 
   componentDidUpdate()
@@ -56,15 +56,10 @@ class WordListElement extends Component {
     }
 }
 
-WordListElement.defaultProps = {
-    word : "drinking"
-};
-
 const mapStateToProps = (state) =>
 {
     return {
-        lastWordToAdd : state.wordInputReducer,
-
+        lastWordToAdd : state.wordInputReducer
     };
 };
 

@@ -1,3 +1,8 @@
-- Clear the lists before new game
+Functionality: 	
+	- Add dictionary checking
+	- Add Robot behavior
 
-UI must be smooth when adding a new element to the list
+UI:
+	Warrior animation
+	UI must be smooth when adding a new element to the list
+	
