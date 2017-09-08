@@ -1,6 +1,19 @@
-.warrior span {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: brown;
+
+.warrior img {
+    position: relative;
+    transition: left .3s, top .3s;
+}
+
+.warrior img.left {
+    /*left: 130px; */
+    transform: scaleX(-1);
+}
+
+
+.warrior img.right{
+    
+}
+
+.warrior img.falling {
+    transform: rotate(90deg);
 }

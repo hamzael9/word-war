@@ -49,7 +49,7 @@ const calculatePointsEarned = (word) =>
     return points;
 };
 
-export const wordInputReducer = (state = {playerNumber: 0, wordToAdd: '', pointsEarned: 0}, action) =>
+export const wordInputReducer = (state = {playerNumber: 0, wordToAdd: '', points: 0}, action) =>
 {
     let new_state;
     switch (action.type)
@@ -59,7 +59,7 @@ export const wordInputReducer = (state = {playerNumber: 0, wordToAdd: '', points
             let wordToAdd = action.payload.word;
             let playerNumber = action.payload.playerNumber;
             let points = calculatePointsEarned(wordToAdd);
-            new_state = {playerNumber, word: wordToAdd, pointsEarned: points}; 
+            new_state = {playerNumber, word: wordToAdd, points: points}; 
 
             break;
 

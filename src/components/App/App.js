@@ -19,7 +19,7 @@ class App extends Component {
   {
     let playerArray = [];
     let playerNames = ['hamza', 'mehdi', 'brahim'];
-    for (var index = 0; index < 3; index++)
+    for (var index = 0; index < 2; index++)
       playerArray.push(<Player key={index} name={playerNames[index]} number={index+1} isHuman={true} />)
 
     return playerArray;
@@ -31,11 +31,13 @@ class App extends Component {
     return (
       <div className="App">
 
-        <StartGame timerValue={15} />
+        <StartGame timerValue={25} />
 
         <div className={`field ${this.props.gameInitiated ? 'visible' : 'hidden'}`} >
           <WordInput />
-          {this.createPlayers()}
+          <div className="player-wrapper">
+            {this.createPlayers()}
+          </div>
         </div>
 
       </div>
