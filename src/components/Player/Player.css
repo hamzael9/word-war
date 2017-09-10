@@ -6,17 +6,17 @@
 
 .player .name {
     display: inline-block;
-    font-size: 18px;
-    color: gray;
+    font-size: 20px;
+    color: white;
     margin-right: 20px;
 }
 
 .player.active .name {
-    color: purple;
+    color: #00ff7f;
 }
 
 .player.inactive .name {
-    color: gray;
+    color: white;
 }
 
 .player .name .type {
@@ -26,5 +26,5 @@
 
 .player .name .points {
     font-size: 17px;
-    color: red;
+    color: yellow;
 }

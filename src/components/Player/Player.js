@@ -19,7 +19,7 @@ class Player extends Component {
     numberOfPlayers++;
 
     this.state = {
-      name     : props.name,
+      name     : props.name.toUpperCase(),
       number   : props.number,
       isHuman  : props.isHuman,
       playing  : false,
@@ -44,7 +44,7 @@ class Player extends Component {
     if (nextProps.lastWordToAdd.playerNumber === -1)
       points = 0;
     else if ( this.state.playing != IamPlaying && nextProps.lastWordToAdd.playerNumber === this.state.number  )
-      points = this.state.points + nextProps.lastWordToAdd.points;
+      points = Math.floor( (this.state.points + nextProps.lastWordToAdd.points) /2 );
     else
       points = this.state.points;
 
@@ -55,7 +55,7 @@ class Player extends Component {
 
     return (
       <div className={`player ${this.state.playing ? 'active' : 'inactive'}`}>
-          <h2 className="name">{`${this.state.name}`} 
+          <h2 className="name">{`${this.state.name} `} 
             <span className="type">{`( ${this.state.isHuman ? 'Human' : 'Robot'} )`}</span>
             <span className="points"> {this.state.points} </span>
           </h2>

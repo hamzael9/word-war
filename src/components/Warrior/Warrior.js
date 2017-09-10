@@ -8,10 +8,12 @@ constructor (props)
     {
       super(props);
 
+      let leftCoordinatesForWarrior = props.position === "left" ? 135  : -135 ;
       this.state = {
         playerNumber: props.playerNumber,
         position: props.position,
-        pixelsToMove :  { left:  props.position === "left" ? 135  : -135 , top: 0 },
+        coordinatesForWarrior :  { left:  leftCoordinatesForWarrior, top: 0 },
+        coordinatesForHadoogen: {left: leftCoordinatesForWarrior+135, opacity: 0 },
         attacking : false,
         gettingHit : false,
         falling: false
@@ -21,33 +23,42 @@ constructor (props)
 
     componentWillReceiveProps(nextProps)
     {
-      let new_points = 0;
+      let new_coordinates_for_warrior = 0;
+      let new_coordinate_for_hadoogen = 0;
       let falling = false;
       let gettingHit = false;
       let attacking = false;
 
       if ( nextProps.lastWord.playerNumber < 0 ) // START OVER
       {
-        new_points = this.state.position === "left" ? 135 : -135;
+        new_coordinates_for_warrior = this.state.position === "left" ? 135 : -135;
       }
       else if ( nextProps.lastWord.playerNumber != this.state.playerNumber ) // defending
       {
           gettingHit = true;
-          new_points = this.state.position === "left" ? this.state.pixelsToMove.left - nextProps.lastWord.points: this.state.pixelsToMove.left + nextProps.lastWord.points;
-          if ( (this.state.position === 'left' && new_points < -130) || (this.state.position === 'right' && new_points > 130  ) )
+          new_coordinates_for_warrior = this.state.position === "left" ? this.state.coordinatesForWarrior.left - nextProps.lastWord.points : this.state.coordinatesForWarrior.left + nextProps.lastWord.points;
+          if ( (this.state.position === 'left' && new_coordinates_for_warrior < -130) || (this.state.position === 'right' && new_coordinates_for_warrior > 130  ) )
           {
-            new_points = this.state.position === 'left' ? -195 : 195;
+            new_coordinates_for_warrior = this.state.position === 'left' ? -195 : 195;
             falling = true;
           }
       }
       else // attacking 
       {
         attacking = true;
-        new_points = this.state.pixelsToMove.left;
+        new_coordinates_for_warrior = this.state.coordinatesForWarrior.left;
       }
 
+      new_coordinate_for_hadoogen = new_coordinates_for_warrior + 130;
+
       this.setState ( (prevState,props) => {
-            return { ...prevState, pixelsToMove : {left : new_points , top: falling? 355 : 0}, attacking: attacking, falling: falling, gettingHit: gettingHit };
+            return { 
+              ...prevState, 
+              coordinatesForWarrior : {left : new_coordinates_for_warrior , top: falling? 374 : 0},
+              coordinatesForHadoogen: {left: new_coordinate_for_hadoogen, opacity: gettingHit? 1 : 0} ,
+              attacking: attacking,
+              falling: falling,
+              gettingHit: gettingHit };
       });
 
     }
@@ -58,8 +69,12 @@ constructor (props)
     return (
       <div className="warrior">
         <img className={`${this.state.position} ${this.state.falling ? 'falling' : ''}`} 
-        src={`images/player-icons/${this.state.attacking ? 'player-attacking' : (this.state.falling || this.state.gettingHit ? 'player-falling' : 'player-standing')}.png`}
-        style={ this.state.pixelsToMove }  ></img>
+             src={`images/player-icons/${this.state.attacking ? 'player-attacking' : (this.state.falling || this.state.gettingHit ? 'player-falling' : 'player-standing')}.png`}
+             style={ this.state.coordinatesForWarrior } >
+        </img>
+        <span className={`hadoogen ${this.state.position}`}
+              style={ this.state.coordinatesForHadoogen } >
+        </span>
       </div>
     );
 
@@ -74,15 +89,3 @@ const mapStateToProps = (state) =>
 }
 
 export default connect(mapStateToProps) (Warrior);
-
-/*
-const mapStateToProps = (reducers) => {
-  console.log(reducers);
-  return {
-      myreducer : reducers.reducer2
-  }
-}
-
-//export default Clock;
-export default connect (mapStateToProps)(Warrior);
-*/

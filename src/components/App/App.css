@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: red;
+  background-color: black;
 }
 
 .App-logo {
@@ -27,4 +27,11 @@
 .App button {
   display: block;
   margin: 10px auto;
+}
+
+.App .spikes {
+  background-image: url('../../images/spikes.png');
+  width: 100%;
+  height: 15px;
+  background-repeat: repeat-x;
 }

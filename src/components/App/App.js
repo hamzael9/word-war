@@ -31,7 +31,7 @@ class App extends Component {
     return (
       <div className="App">
 
-        <StartGame timerValue={25} />
+        <StartGame timerValue={40} />
 
         <div className={`field ${this.props.gameInitiated ? 'visible' : 'hidden'}`} >
           <WordInput />
@@ -39,8 +39,7 @@ class App extends Component {
             {this.createPlayers()}
           </div>
         </div>
-        <div className="spines">
-          spines
+        <div className="spikes">
         </div>
 
       </div>
