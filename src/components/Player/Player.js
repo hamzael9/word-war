@@ -35,15 +35,20 @@ class Player extends Component {
 
   componentWillReceiveProps(nextProps)
   {
-    let amIPlaying = nextProps.actualPlayerNumber == this.state.number;
-    this.setState((prevState,props) => { return { playing: amIPlaying } });
+    let IamPlaying = (nextProps.actualPlayerNumber === this.state.number);
+    let points = 0;
 
+
+    //console.log ('state points : ' + this.state.points);
     // handle word added
-    if ( nextProps.lastWordToAdd.playerNumber === this.state.number )
-      this.setState ( (prevState, props) => { return { points: prevState.points+nextProps.lastWordToAdd.points }; } );
-    else if (nextProps.lastWordToAdd.playerNumber === -1)
-      this.setState ( (prevState, props) => { return { points: 0 }; } );
+    if (nextProps.lastWordToAdd.playerNumber === -1)
+      points = 0;
+    else if ( this.state.playing != IamPlaying && nextProps.lastWordToAdd.playerNumber === this.state.number  )
+      points = this.state.points + nextProps.lastWordToAdd.points;
+    else
+      points = this.state.points;
 
+    this.setState((prevState,props) => { return { playing: IamPlaying, points: points } });
   }
 
   render() {

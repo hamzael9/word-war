@@ -1,7 +1,7 @@
 
 .warrior img {
     position: relative;
-    transition: left .3s, top .3s;
+    transition: left .3s, top 1s;
 }
 
 .warrior img.left {

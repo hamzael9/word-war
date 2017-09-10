@@ -38,8 +38,10 @@ class WordList extends Component {
   render()
   {
     return (
-      <div className="word-list">
-          { this.state.listOfWords }
+      <div className="word-list-wrapper">
+        <div className="word-list">
+            { this.state.listOfWords }
+        </div>
       </div>
     );
   }

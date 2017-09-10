@@ -46,6 +46,7 @@ const calculatePointsEarned = (word) =>
             points += lettersToPointsMap.get(l);
         }
     );
+    points *= 5;
     return points;
 };
 

@@ -21,26 +21,35 @@ constructor (props)
 
     componentWillReceiveProps(nextProps)
     {
-      if ( nextProps.lastWord.playerNumber != this.state.playerNumber )
+      let new_points = 0;
+      let falling = false;
+      let gettingHit = false;
+      let attacking = false;
+
+      if ( nextProps.lastWord.playerNumber < 0 ) // START OVER
       {
-          let new_points = this.state.position === "left" ? this.state.pixelsToMove.left - nextProps.lastWord.points: this.state.pixelsToMove.left + nextProps.lastWord.points;
-          let falling = false;
-          let gettingHit = false;
+        new_points = this.state.position === "left" ? 135 : -135;
+      }
+      else if ( nextProps.lastWord.playerNumber != this.state.playerNumber ) // defending
+      {
+          gettingHit = true;
+          new_points = this.state.position === "left" ? this.state.pixelsToMove.left - nextProps.lastWord.points: this.state.pixelsToMove.left + nextProps.lastWord.points;
           if ( (this.state.position === 'left' && new_points < -130) || (this.state.position === 'right' && new_points > 130  ) )
+          {
+            new_points = this.state.position === 'left' ? -195 : 195;
             falling = true;
-          else if ( nextProps.lastWord.playerNumber > 0 )
-            gettingHit = true;
-            
-//          new_points *= 1.5;
-        console.info ('will receive props : ' + + new_points);
-          this.setState ( (prevState,props) => {
-            return { ...prevState, pixelsToMove : {left : new_points, top: falling? 100 : 0}, attacking: false, falling: falling, gettingHit: gettingHit };
-          });
+          }
       }
-      else
+      else // attacking 
       {
-        this.setState((prevState) => {return {...prevState, attacking: true}});
+        attacking = true;
+        new_points = this.state.pixelsToMove.left;
       }
+
+      this.setState ( (prevState,props) => {
+            return { ...prevState, pixelsToMove : {left : new_points , top: falling? 355 : 0}, attacking: attacking, falling: falling, gettingHit: gettingHit };
+      });
+
     }
 
 

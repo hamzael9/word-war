@@ -39,6 +39,9 @@ class App extends Component {
             {this.createPlayers()}
           </div>
         </div>
+        <div className="spines">
+          spines
+        </div>
 
       </div>
     );
