@@ -51,7 +51,7 @@ class WordInput extends Component {
             ret.isValid = false;
             ret.msg = 'Special Characters are not allowed !';
         }
-        else if (this.props.lastWord != undefined && this.props.lastWord != '' && word[0] != this.props.lastWord.substr(-1))
+        else if (this.props.lastWord !== undefined && this.props.lastWord !== '' && word[0] !== this.props.lastWord.substr(-1))
         {
             ret.isValid = false;
             ret.msg = `Word does not start with the last letter of the last word : ${this.props.lastWord.substr(-1)}`;
@@ -90,8 +90,8 @@ const mapStateToProps = (state) =>
 const mapDispatchToProps = (dispatch) =>
 {
     return {
-        addWord : (word, player_number) => dispatch (addWordAction(word, player_number)),
-        changeToNextPlayer  : () => dispatch (changeToNextPlayerAction())
+        addWord : (word, player_number) => dispatch (addWordAction(word, player_number))
+        //changeToNextPlayer  : () => dispatch (changeToNextPlayerAction())
     };
 };
 

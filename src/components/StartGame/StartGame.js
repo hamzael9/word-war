@@ -16,7 +16,9 @@ class StartGame extends Component {
         super(props);
         this.state = {
                 seconds: this.props.timerValue,
-                timer : null
+                timer : null,
+                gameOverVisible : false,
+                fightVisible : false
         };
     }
 
@@ -25,7 +27,11 @@ class StartGame extends Component {
         if (this.props.gameInitiated && !this.props.gameStarted)
         {
             this.setState ({seconds : this.props.timerValue});
-            this.props.gameStarted ? null : ( () => { this.props.addWord('',-1); this.props.startGame(); })();
+
+            this.props.gameStarted ? null : ( () => {
+                 this.props.addWord('',-1);
+                 this.props.startGame(); 
+            })();
         }
     }
 
@@ -36,11 +42,18 @@ class StartGame extends Component {
 
     componentWillReceiveProps (nextProps)
     {
+        // new game ?
         if ( this.props.gameFinished && nextProps.gameStarted )
         {
             let timerID = setInterval(this.tick.bind(this), 1000);
             this.setState({timer: timerID});
             this.props.changeToNextPlayer(1);
+            this.setState ((prevState) => { return {...prevState, fightVisible : true, gameOverVisible: false}; } );
+        }
+        // game finished before timeout?
+        else if (nextProps.gameFinished && this.props.gameStarted)
+        {
+            this.stopTimer();
         }
     }
 
@@ -55,12 +68,18 @@ class StartGame extends Component {
         if (this.state.seconds === 0)
         {
             this.stopTimer();
+            this.finishGame();
         }
     }
 
     stopTimer ()
     {
         clearInterval(this.state.timer);
+        this.setState ((prevState) => { return {...prevState, fightVisible: false, gameOverVisible : true}; } );
+    }
+
+    finishGame()
+    {
         this.props.finishGame();
     }
 
@@ -69,8 +88,14 @@ class StartGame extends Component {
     return (
       <div className="start-game">
           <button onClick={ () =>  this.startGameClickHandler() } > Start Playing !</button>
-          <div className={`clock ${this.props.gameStarted ? 'visible' : 'hidden'}`}>
+          <div className={`clock visible`}>
             <h6>Time remaining : <span className="timer">{this.state.seconds}</span></h6>
+          </div>
+          <div className={`fight ${this.state.fightVisible ? 'visible' : 'hidden'}`} >
+              <h3>FIGHT !</h3>
+          </div>
+          <div className={`game-over ${this.state.gameOverVisible ? 'visible' : 'hidden'}`}>
+              <h3>GAME OVER !</h3>
           </div>
       </div>
     );

@@ -1,6 +1,12 @@
+
+
+/*__________________________________*/
+
 .App {
   text-align: center;
-  background-color: black;
+  background-color: red;
+  padding-top: 30px;
+  position: relative;
 }
 
 .App-logo {
@@ -9,7 +15,6 @@
 }
 
 .App-header {
-  background-color: #222;
   height: 150px;
   padding: 20px;
   color: white;
@@ -24,9 +29,9 @@
   to { transform: rotate(360deg); }
 }
 
-.App button {
-  display: block;
-  margin: 10px auto;
+.App .field {
+  position: relative;
+  bottom: -15px;
 }
 
 .App .spikes {

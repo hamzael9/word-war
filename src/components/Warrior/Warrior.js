@@ -2,6 +2,29 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import './Warrior.css';
 
+import {finishGameAction} from '../StartGame/StartGame.actions'
+/*
+var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+var source = audioContext.createBufferSource();
+var request = new XMLHttpRequest();
+request.open('GET', './punch.mp3', true);
+request.responseType = 'arraybuffer';
+request.onload = function(){
+  audioContext.decodeAudioData(request.response, function(buffer) {
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.loop = true;
+    source.start(0);
+  }, function(e) {
+    console.log('Audio error !', e);
+  });
+}
+
+request.send();
+*/
+var punchAudio = new Audio('./sounds/punch.mp3');
+var screamingAudio = new Audio('./sounds/screaming1.mp3');
+
 class Warrior extends Component {
 
 constructor (props)
@@ -33,7 +56,7 @@ constructor (props)
       {
         new_coordinates_for_warrior = this.state.position === "left" ? 135 : -135;
       }
-      else if ( nextProps.lastWord.playerNumber != this.state.playerNumber ) // defending
+      else if ( nextProps.lastWord.playerNumber !== this.state.playerNumber ) // defending
       {
           gettingHit = true;
           new_coordinates_for_warrior = this.state.position === "left" ? this.state.coordinatesForWarrior.left - nextProps.lastWord.points : this.state.coordinatesForWarrior.left + nextProps.lastWord.points;
@@ -54,12 +77,20 @@ constructor (props)
       this.setState ( (prevState,props) => {
             return { 
               ...prevState, 
-              coordinatesForWarrior : {left : new_coordinates_for_warrior , top: falling? 374 : 0},
+              coordinatesForWarrior : {left : new_coordinates_for_warrior , top: falling? 362 : 0},
               coordinatesForHadoogen: {left: new_coordinate_for_hadoogen, opacity: gettingHit? 1 : 0} ,
               attacking: attacking,
               falling: falling,
               gettingHit: gettingHit };
       });
+
+      if ( attacking )
+        punchAudio.play();
+      else if ( falling )
+      {
+        screamingAudio.play();
+        this.props.finishGame();
+      }
 
     }
 
@@ -88,4 +119,11 @@ const mapStateToProps = (state) =>
   };
 }
 
-export default connect(mapStateToProps) (Warrior);
+const mapDispatchToProps = (dispatch) =>
+{
+  return {
+    finishGame : () => dispatch ( finishGameAction () )
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Warrior);

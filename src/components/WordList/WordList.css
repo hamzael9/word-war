@@ -3,11 +3,16 @@
     height: 350px;
     overflow-y: scroll;
     padding: 10px;
-    border: white 1px solid;
+    border-top: white 2px solid;
+    border-left: white 5px solid;
+    border-right: white 5px solid;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .word-list .element h6 {
     font-family: monospace;
     font-size: 18px;
     color: white;
+    margin: 20px 0;
 }

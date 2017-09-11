@@ -20,7 +20,7 @@ class Player extends Component {
 
     this.state = {
       name     : props.name.toUpperCase(),
-      number   : props.number,
+      number   : numberOfPlayers,
       isHuman  : props.isHuman,
       playing  : false,
       points   : 0

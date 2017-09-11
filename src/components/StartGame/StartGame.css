@@ -1,3 +1,42 @@
 .start-game {
     color: orange;
 }
+
+.start-game button {
+  display: block;
+  margin: 0 auto;
+}
+
+.start-game .clock {
+    margin: 10px 0;
+}
+
+.start-game .fight {
+    opacity: 0;
+}
+
+@keyframes fightfadeout {
+ 0% {opacity : 1;}
+ 100% {opacity: 0; }
+}
+
+.start-game .fight.visible {
+    animation: fightfadeout 1s 1 ;
+}
+
+.start-game .fight, .start-game .game-over {
+    width: 100%;
+    height: 100px;
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto auto;
+}
+
+.start-game .fight h3, .start-game .game-over h3 {
+    color: green;
+    font-size: 80px;
+}
