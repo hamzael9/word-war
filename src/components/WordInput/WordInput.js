@@ -22,7 +22,7 @@ class WordInput extends Component {
 
     handleKeyPress (e)
     {
-        if (  this.props.gameStarted && e.key === 'Enter' )
+        if (  this.props.gameStarted && e.key === 'Enter' && this.refs.myWordInput.value.length > 1 )
         {
             let wordToAdd = this.refs.myWordInput.value;
             let checkResult = this.checkWordIsValid(wordToAdd);
@@ -33,6 +33,7 @@ class WordInput extends Component {
             else
             {
                 alert (checkResult.msg);
+                this.refs.myWordInput.setSelectionRange(0, this.refs.myWordInput.value.length)
             }
             
         }
@@ -86,8 +87,18 @@ class WordInput extends Component {
                     this.props.addWord(this.refs.myWordInput.value, this.props.actualPlayerNumber);
                     this.refs.myWordInput.value = '';
                 }
+                else
+                {
+                    alert ('Word is not in dictionary !');
+                }
             } ) ;
         }
+    }
+
+    componentWillReceiveProps(nextProps)
+    {
+        if (nextProps.gameStarted && !this.props.gameStarted)
+            this.refs.myWordInput.value = '';
     }
 
     render ()
