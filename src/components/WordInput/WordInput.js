@@ -7,6 +7,10 @@ import {connect} from 'react-redux';
 import {addWordAction} from '../WordInput/WordInput.actions';
 import {changeToNextPlayerAction} from '../Player/Player.actions';
 
+//const oxfordDictionaryApiURL = 'https://od-api.oxforddictionaries.com:443/api/v1/inflections/';
+const backURL = 'http://localhost:3000/check/';
+
+let request = null;
 
 class WordInput extends Component {
 
@@ -24,10 +28,7 @@ class WordInput extends Component {
             let checkResult = this.checkWordIsValid(wordToAdd);
             if ( checkResult.isValid )
             {
-                this.props.addWord(wordToAdd, this.props.actualPlayerNumber);
-
-                
-                this.refs.myWordInput.value = '';
+                this.checkWordInBackEnd(wordToAdd);
             }
             else
             {
@@ -51,7 +52,7 @@ class WordInput extends Component {
             ret.isValid = false;
             ret.msg = 'Special Characters are not allowed !';
         }
-        else if (this.props.lastWord !== undefined && this.props.lastWord !== '' && word[0] !== this.props.lastWord.substr(-1))
+        else if ( this.props.lastWord !== undefined && this.props.lastWord !== '' && word[0] !== this.props.lastWord.substr(-1) )
         {
             ret.isValid = false;
             ret.msg = `Word does not start with the last letter of the last word : ${this.props.lastWord.substr(-1)}`;
@@ -63,6 +64,30 @@ class WordInput extends Component {
         }
 
         return ret;
+
+    }
+
+    checkWordInBackEnd(word)
+    {
+
+        let requestURL = backURL + word;
+        request = new Request(requestURL);
+
+        fetch(requestURL).then(this.fetchCallback.bind(this));
+
+    }
+
+    fetchCallback(resp) 
+    {
+        if (resp.status === 200) {
+            resp.text().then( (text) => {
+                if (text === 'yes')
+                {
+                    this.props.addWord(this.refs.myWordInput.value, this.props.actualPlayerNumber);
+                    this.refs.myWordInput.value = '';
+                }
+            } ) ;
+        }
     }
 
     render ()
