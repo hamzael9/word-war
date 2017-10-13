@@ -8,7 +8,7 @@ import {addWordAction} from '../WordInput/WordInput.actions';
 import {changeToNextPlayerAction} from '../Player/Player.actions';
 
 //const oxfordDictionaryApiURL = 'https://od-api.oxforddictionaries.com:443/api/v1/inflections/';
-const backURL = 'http://localhost:3000/check/';
+const backURL = 'http://localhost:4000/check/';
 
 let request = null;
 
